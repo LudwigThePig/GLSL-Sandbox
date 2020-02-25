@@ -5,10 +5,18 @@ void main() {
 `;
 const fshader = `
 uniform vec2 u_mouse;
+uniform float u_time;
 uniform vec2 u_resolution;
 uniform vec3 u_color;
 void main() {
-  vec3 color = vec3(u_mouse.x/u_resolution.x, 0.0, u_mouse.y/u_resolution.y);
+  // vec2 v = u_mouse / u_resolution;
+  // vec3 color = vec3(v.x, v.y, 0.0);
+
+  vec3 color = vec3(
+    (sin(u_time) + 1.0) / 2.0,
+    0.0,
+    (cos(u_time) + 1.0) / 2.0
+    );
   gl_FragColor = vec4(color, 0.0);
 }
 `;
@@ -20,6 +28,8 @@ const camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0.1, 10 );
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
+
+const clock = new THREE.Clock();
 
 const geometry = new THREE.PlaneGeometry( 2, 2 );
 const uniforms = { 
@@ -86,5 +96,6 @@ function move(e) {
 
 function animate() {
   requestAnimationFrame( animate );
+  uniforms.u_time.value = clock.getElapsedTime();
   renderer.render( scene, camera );
 }
