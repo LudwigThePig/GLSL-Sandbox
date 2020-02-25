@@ -1,1 +1,1 @@
-console.log('hello glsl world!');
+import './initial/setup';
