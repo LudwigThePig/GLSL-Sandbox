@@ -1,18 +1,16 @@
 const vshader = `
-varying vec2 v_uv;
+varying vec3 v_position;
 void main() {
-  v_uv = uv;
+  v_position = position;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position * 0.5, 1.0);
 }
 `;
 const fshader = `
 uniform vec2 u_resolution;
-varying vec2 v_uv;
+varying vec3 v_position;
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / u_resolution;
-  vec3 color = vec3(v_uv.x, v_uv.y, 0.0);
-  gl_FragColor = vec4(color, 1.0);
+  vec3 color = vec3(v_position.x, v_position.y, 0.0);
   gl_FragColor = vec4(color, 0.0);
 }
 `;
